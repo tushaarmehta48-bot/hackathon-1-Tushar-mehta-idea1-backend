@@ -1,0 +1,13 @@
+# Supabase CLI config. Link your dev project: supabase link --project-ref <ref>
+
+project_id = ""
+
+[db]
+major_version = 15
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
