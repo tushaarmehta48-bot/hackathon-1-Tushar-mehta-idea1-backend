@@ -96,7 +96,7 @@ Running `npm run dev` for Next.js/NestJS **does not** create tables. Until migra
 
 ## Customer sign-in
 
-Guests use **email and password** via Supabase Auth on `/login`. New users get a **CUSTOMER** profile on first API call (`syncProfileFromAuth`).
+Guests use **email and password** on `/login`. **Create account** calls `POST /api/v1/auth/customer/sign-up` (service role, email pre-confirmed), then signs in. New users get a **CUSTOMER** profile via `syncProfileFromAuth`.
 
 ## Security notes
 
