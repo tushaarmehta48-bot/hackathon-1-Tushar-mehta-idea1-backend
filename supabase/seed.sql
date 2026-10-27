@@ -41,7 +41,7 @@ VALUES
   (
     'a1000000-0000-4000-8000-000000000002',
     'Garden terrace',
-    'Outdoor seating under the haritz',
+    'Outdoor seating in the Aramaio valley',
     'OUTDOOR',
     2,
     true
@@ -58,6 +58,7 @@ INSERT INTO public.restaurant_tables (
   svg_y,
   svg_width,
   svg_height,
+  table_tier,
   active,
   bookable
 )
@@ -69,9 +70,10 @@ VALUES
     2,
     6,
     40,
-    60,
+    36,
     100,
-    70,
+    58,
+    'STANDARD',
     true,
     true
   ),
@@ -82,9 +84,10 @@ VALUES
     2,
     8,
     180,
-    60,
+    36,
     120,
-    70,
+    58,
+    'PREMIUM',
     true,
     true
   ),
@@ -94,15 +97,22 @@ VALUES
     'G1',
     2,
     4,
-    50,
-    120,
-    80,
-    80,
+    130,
+    118,
+    90,
+    72,
+    'GROUP',
     true,
     true
   )
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET
+  svg_x = EXCLUDED.svg_x,
+  svg_y = EXCLUDED.svg_y,
+  svg_width = EXCLUDED.svg_width,
+  svg_height = EXCLUDED.svg_height,
+  table_tier = EXCLUDED.table_tier;
 
+-- Public online booking: Thu–Sun lunch 13:00–16:00 (Europe/Madrid). Mon–Wed: no shifts.
 INSERT INTO public.service_shifts (
   id,
   name,
@@ -114,7 +124,16 @@ INSERT INTO public.service_shifts (
 )
 VALUES
   (
-    'c1000000-0000-4000-8000-000000000001',
+    'c1000000-0000-4000-8000-000000000010',
+    'Thursday lunch',
+    4,
+    '13:00',
+    '16:00',
+    120,
+    true
+  ),
+  (
+    'c1000000-0000-4000-8000-000000000011',
     'Friday lunch',
     5,
     '13:00',
@@ -123,32 +142,43 @@ VALUES
     true
   ),
   (
-    'c1000000-0000-4000-8000-000000000002',
-    'Friday dinner',
-    5,
-    '20:00',
-    '23:30',
-    150,
-    true
-  ),
-  (
-    'c1000000-0000-4000-8000-000000000003',
+    'c1000000-0000-4000-8000-000000000012',
     'Saturday lunch',
     6,
     '13:00',
     '16:00',
     120,
     true
+  ),
+  (
+    'c1000000-0000-4000-8000-000000000013',
+    'Sunday lunch',
+    0,
+    '13:00',
+    '16:00',
+    120,
+    true
   )
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  weekday = EXCLUDED.weekday,
+  starts_at = EXCLUDED.starts_at,
+  ends_at = EXCLUDED.ends_at,
+  default_duration_minutes = EXCLUDED.default_duration_minutes,
+  active = EXCLUDED.active;
 
 INSERT INTO public.season_rules (id, name, starts_on, ends_on, config, enabled)
 VALUES (
   'd1000000-0000-4000-8000-000000000001',
-  'Txotx season',
-  '2026-01-01',
-  '2026-04-30',
-  '{"txotx_enabled": true, "highlight_key": "season.txotx"}'::jsonb,
+  'Public lunch service',
+  '2020-01-02',
+  '2099-12-23',
+  '{"online_lunch_only": true, "txotx_jan_may": true, "dinners_by_arrangement": true}'::jsonb,
   true
 )
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  starts_on = EXCLUDED.starts_on,
+  ends_on = EXCLUDED.ends_on,
+  config = EXCLUDED.config,
+  enabled = EXCLUDED.enabled;

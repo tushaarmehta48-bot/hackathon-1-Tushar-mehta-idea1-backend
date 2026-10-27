@@ -1,0 +1,45 @@
+export type ReservationRecord = {
+  id: string;
+  reference: string;
+  customer_id: string | null;
+  table_id: string;
+  shift_id: string | null;
+  starts_at: string;
+  ends_at: string;
+  party_size: number;
+  status: string;
+  source: string;
+  special_request: string | null;
+  deposit_required: boolean;
+  deposit_due_at: string | null;
+  checked_in_at: string | null;
+  checked_in_guest_count?: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ReservationView = {
+  id: string;
+  reference: string;
+  tableId: string;
+  tableLabel: string | null;
+  shiftId: string | null;
+  shiftName: string | null;
+  startsAt: string;
+  endsAt: string;
+  partySize: number;
+  status: string;
+  source: string;
+  specialRequest: string | null;
+  depositRequired: boolean;
+  depositAmountCents: number | null;
+  depositCurrency: string | null;
+  depositDueAt: string | null;
+  paymentStatus: string | null;
+  checkedInAt: string | null;
+  checkedInGuestCount: number;
+  createdAt: string;
+  canCancel: boolean;
+  cancellationDeadlineAt: string | null;
+  qrToken?: string;
+};
