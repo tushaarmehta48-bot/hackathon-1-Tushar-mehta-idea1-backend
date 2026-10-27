@@ -94,17 +94,9 @@ npm run test:db:live     # overlap test (needs migrations applied)
 
 Running `npm run dev` for Next.js/NestJS **does not** create tables. Until migrations (and seed) run against **your** project, Table Editor will not show `booking_policies`, `reservations`, etc.
 
-## Customer OAuth (Google)
+## Customer sign-in
 
-Guest sign-in uses Supabase Auth in the Next.js app (`/auth/callback`).
-
-1. Supabase Dashboard → **Authentication** → **URL configuration** → add redirect URLs:
-   - `http://localhost:3000/auth/callback`
-   - Your production origin, e.g. `https://your-domain.com/auth/callback`
-2. **Authentication** → **Providers** → enable **Google** and paste the OAuth client ID / secret.
-3. Optional: `NEXT_PUBLIC_OAUTH_PROVIDERS=google` in `frontend/.env.local` (Google is the default).
-
-New OAuth users get a **CUSTOMER** profile on first API call (`syncProfileFromAuth`).
+Guests use **email and password** via Supabase Auth on `/login`. New users get a **CUSTOMER** profile on first API call (`syncProfileFromAuth`).
 
 ## Security notes
 
